@@ -13,15 +13,10 @@
 - [x] [id](#id)
 
 ## id
-### 题目
 ```js
 function id(x) {
     return x;
 }
+id(true); // true
+id(!0); // true
 ```
-### 答案
-```js
-id(NaN); // true
-```
-### 涉及知识点
-> 值 “NaN” 是独一无二的，它不等于任何东西，包括它自身。
