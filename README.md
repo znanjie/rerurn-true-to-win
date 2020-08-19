@@ -13,6 +13,7 @@
 - [x] [id (2)](#id)
 - [x] [reflexive (3)](#reflexive)
 - [x] [transitive (8)](#transitive)
+- [x] [peano ()](#peano)
 
 ## id
 ```js
@@ -63,3 +64,10 @@ transitive(1,{i:0, valueOf() {return ++this.i;}},2); // true
 ```
 > 代码中的 `x == y` 和 `y == z`，都触发了类型转换，也就是 `Number(y)` 触发了 `valueOf()` 方法。  
 > 上述方案重写了对象的 `valueOf()`，使其每次触发类型转换时返回的值 +1。
+
+## peano
+```js
+function peano(x) {
+    return (x++ !== x) && (x++ === x);
+}
+```
