@@ -6,6 +6,12 @@
 > Microsoft Edge 基于 Chromium  84.0.522.59
 
 ## 目录
-- [x] [Warmup](#Warmup)
+- [x] [id](#id)
 
-## Warmup
+## id
+```js
+function id(x) {
+    return x;
+}
+id(NaN);// => true
+```
