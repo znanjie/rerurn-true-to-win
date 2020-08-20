@@ -70,4 +70,5 @@ transitive(1,{i:0, valueOf() {return ++this.i;}},2); // true
 function peano(x) {
     return (x++ !== x) && (x++ === x);
 }
+peano(2**53-1); // true
 ```
