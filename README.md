@@ -6,14 +6,13 @@
 - [Return true to Win](https://alf.nu/ReturnTrue)
 
 ## 环境
-> macOS Mojave 10.14.3  
-> Microsoft Edge 基于 Chromium  84.0.522.59
+> Google Chrome 84.0.4147.135（正式版本） （64 位）
 
 ## 目录
 - [x] [id (2)](#id)
 - [x] [reflexive (3)](#reflexive)
 - [x] [transitive (8)](#transitive)
-- [x] [peano ()](#peano)
+- [x] [peano (7)](#peano)
 
 ## id
 ```js
@@ -31,7 +30,7 @@ function reflexive(x) {
 }
 reflexive(NaN); // true
 ```
-> 值 `NaN` 是独一无二的，它不等于任何东西，包括它自身
+> 值 `NaN` 是独一无二的，它不等于任何东西，包括它自身。
 
 ## transitive
 ```js
