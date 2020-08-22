@@ -13,6 +13,7 @@
 - [x] [reflexive (3)](#reflexive)
 - [x] [transitive (8)](#transitive)
 - [x] [peano (7)](#peano)
+- [x] [counter ()](#counter)
 
 ## id
 ```js
@@ -83,7 +84,7 @@ Index|63|62-52|51-0
 - [Safe integers in JavaScript](https://2ality.com/2013/10/safe-integers.html)
 > In the range (−253, 253) (excluding the lower and upper bounds), JavaScript integers are safe: there is a one-to-one mapping between mathematical integers and their representations in JavaScript.  
 
-简单翻译理解：在 (-2^53, 2^53) 的闭区间中的所有整数为安全整数，**双精度浮点数和整数具有一对一（one-to-one）的映射关系**，也就是说在这个范围内的双精度浮点数只能表达**唯一**的整数。超出了这个范围的双精度浮点数是可以表达多个整数的。
+简单翻译理解：在 (-2^53, 2^53) 的开区间中的所有整数为安全整数，**双精度浮点数和整数具有一对一（one-to-one）的映射关系**，也就是说在这个范围内的双精度浮点数只能表达**唯一**的整数。超出了这个范围的双精度浮点数是可以表达多个整数的。
 ### 数值对比
 十进制|科学计数|双精度浮点数|描述
 :---:|:---:|---|---
@@ -91,3 +92,12 @@ Index|63|62-52|51-0
 ![](https://latex.codecogs.com/svg.latex?2^{53}+1)|1.{52个0}1 * ![](https://latex.codecogs.com/svg.latex?2^{53})|1.{52个0} * ![](https://latex.codecogs.com/svg.latex?2^{53})|浮点数尾数部分只保留52位，浮点数最后一位无法存储被省略。
 
 可以看出，双精度浮点数 `1.{52个0} * 2^53` 可以表示两个整数，在 JavaScript 中会被认为为`不安全整数`，它们不符合**双精度浮点数和整数具有一对一（one-to-one）的映射关系**这一描述。而实际中，这个两个非安全数对比，也就是 `(2^53 === 2^53 + 1) ===> true` , JavaScript 对比的其实是两个数的双进度浮点数，也就是 `(1.{52个0} * 2^53 === 1.{52个0} * 2^53) ===> true`。
+
+## counter
+```js
+function counter(f) {
+    var a = f(), b = f();
+    return a() == 1 && a() == 2 && a() == 3
+        && b() == 1 && b() == 2;
+}
+```
