@@ -13,7 +13,7 @@
 - [x] [reflexive (3)](#reflexive)
 - [x] [transitive (8)](#transitive)
 - [x] [peano (7)](#peano)
-- [x] [counter ()](#counter)
+- [x] [counter (13)](#counter)
 
 ## id
 ```js
@@ -100,4 +100,14 @@ function counter(f) {
     return a() == 1 && a() == 2 && a() == 3
         && b() == 1 && b() == 2;
 }
+// answer
+counter((i=0)=>$=>++i);// true
+// detail
+counter(()=>{
+    let i = 0;
+    return ()=> ++i;
+}); // true
 ```
+> 闭包：内部函数总是可以访问其所在的外部函数中声明的变量和参数，即使在其外部函数被返回（寿命终结）了之后。  
+### 词法环境（Lexical Environment）
+> 在 JavaScript 中，每个运行的函数，代码块 `{...}` 以及整个脚本，都有一个被称为 **词法环境（Lexical Environment）** 的内部（隐藏）的关联对象。
