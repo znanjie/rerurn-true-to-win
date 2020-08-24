@@ -1,0 +1,19 @@
+@startuml
+skinparam {
+    FileFontSize 14
+    ObjectAttributeFontSize 14
+    ObjectFontSize 16
+}
+agent agent [
+    null
+]
+file counter [
+    let counter = 'hello';
+]
+object LexicalEnvironment
+LexicalEnvironment : counter = 'hello'
+
+left to right direction
+counter .. LexicalEnvironment
+LexicalEnvironment --> agent: Outer
+@enduml
