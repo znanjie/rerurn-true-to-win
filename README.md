@@ -120,8 +120,13 @@ counter(()=>{
   - **全局环境记录（Global Environment Record）**
 - **对外部词法环境的引用（Outer）**：对 **外部词法环境** 的引用，与外部代码相关联
 
+<div align=center>
+    <img src="./static/img/lexical-env.png">
+</div>
+
 #### 声明式环境记录（Declarative Environment Record）
-- 变量声明：一个“变量”只是 **环境记录** 这个特殊的内部 **对象** 的一个 **属性**。“获取或修改变量”意味着“获取或修改词法环境（对象）的一个属性”。
+- 变量声明：一个“变量”只是 **环境记录** 这个特殊的内部 **对象** 的一个 **属性**。“获取或修改变量”意味着“获取或修改词法环境（对象）的一个属性”。  
+
 <div align=center>
     <img src="./static/svg/LexicalEnvironmentDeclaration.svg">
 </div>
