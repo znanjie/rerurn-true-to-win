@@ -1,6 +1,7 @@
 # Return true to Win
 >  A series of JavaScript challenges.  
->>项目关于 Javascript 的一些**有趣**的知识点，只要让返回的结果为 `true` 即视为赢得了游戏，最优解是使用最少字符的答案。
+>
+>  >项目关于 Javascript 的一些**有趣**的知识点，只要让返回的结果为 `true` 即视为赢得了游戏，最优解是使用最少字符的答案。
 
 ## 挑战地址
 - [Return true to Win](https://alf.nu/ReturnTrue)
@@ -110,4 +111,27 @@ counter(()=>{
 ```
 > 闭包：内部函数总是可以访问其所在的外部函数中声明的变量和参数，即使在其外部函数被返回（寿命终结）了之后。  
 ### 词法环境（Lexical Environment）
-> 在 JavaScript 中，每个运行的函数，代码块 `{...}` 以及整个脚本，都有一个被称为 **词法环境（Lexical Environment）** 的内部（隐藏）的关联对象。
+> 在 JavaScript 中，每个运行的函数，代码块 `{...}` 以及整个脚本，都有一个被称为 **词法环境（Lexical Environment）** 的内部（隐藏）的关联**对象**。
+
+词法环境对象由两部分组成：
+- **环境记录（Environment Record）**：一个存储所有局部变量作为其属性（包括一些其他信息，例如 this 的值）的对象。
+  - **声明式环境记录（Declarative Environment Record）**
+  - **对象式环境记录（Object Environment Record）**
+  - **全局环境记录（Global Environment Record）**
+- **对外部词法环境的引用（Outer）**：对 **外部词法环境** 的引用，与外部代码相关联
+
+<div align=center>
+    <img src="./static/img/lexical-env.png">
+</div>
+
+#### 声明式环境记录（Declarative Environment Record）
+- 变量声明：一个“变量”只是 **环境记录** 这个特殊的内部 **对象** 的一个 **属性**。“获取或修改变量”意味着“获取或修改词法环境（对象）的一个属性”。  
+
+<div align=center>
+    <img src="./static/svg/LexicalEnvironmentDeclaration.svg">
+</div>
+
+> 图片左边为脚本文件，`LexicalEnvironment` 表示为 `环境记录（Environment Record）`，箭头（`Outer`）表示 `对外部词法环境的引用`，**全局词法环境没有外部引用**，所以箭头指向了 `null`。  
+`LexicalEnvironment` 在此处用对象的方式来表达，`counter` 为 `LexicalEnvironment` 这一对象的一个属性，其值为 `hello`。
+
+- 函数声明：
