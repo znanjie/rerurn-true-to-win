@@ -1,0 +1,25 @@
+@startuml LexicalEnvironmentFunction
+skinparam {
+    FileFontSize 14
+    ObjectAttributeFontSize 14
+    ObjectFontSize 16
+}
+agent agent [
+    null
+]
+file counter [
+    let name = 'znanjie';
+
+    function say(name) {
+        console.log(`hello, ${name}`);
+    }
+]
+object LexicalEnvironment
+LexicalEnvironment : counter: <uninitialized>
+LexicalEnvironment : say: function
+LexicalEnvironment : .....
+
+left to right direction
+counter .. LexicalEnvironment
+LexicalEnvironment --> agent: Outer
+@enduml
