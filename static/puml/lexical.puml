@@ -1,4 +1,4 @@
-@startuml
+@startuml LexicalEnvironment
 skinparam {
     FileFontSize 14
     ObjectAttributeFontSize 14
