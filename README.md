@@ -127,11 +127,11 @@ counter(()=>{
 #### 声明式环境记录（Declarative Environment Record）
 - 变量声明：一个“变量”只是 **环境记录** 这个特殊的内部 **对象** 的一个 **属性**。“获取或修改变量”意味着“获取或修改词法环境（对象）的一个属性”。
 
-&nbsp;
+<br/>
 <div align=center>
     <img src="./static/svg/LexicalEnvironmentDeclaration.svg">
 </div>
-<p>&nbsp;</p>
+<br/>
 
 > 图片左边为脚本文件，`LexicalEnvironment` 表示为 `环境记录（Environment Record）`，箭头（`Outer`）表示 `对外部词法环境的引用`，**全局词法环境没有外部引用**，所以箭头指向了 `null`。  
 `LexicalEnvironment` 在此处用对象的方式来表达，`counter` 为 `LexicalEnvironment` 这一对象的一个属性，其值为 `hello`。
