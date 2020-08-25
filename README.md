@@ -160,7 +160,7 @@ counter = 'world'; // ······ counter: 'world'
 
 - **函数声明**：一个函数其实也是一个值，就像变量一样。**不同之处在于函数声明的初始化会被立即完成**。  
 当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 `let` 那样直到声明处才可用）。  
-这就是为什么我们可以在（函数声明）的定义之前调用函数声明。
+这就是为什么我们可以在（函数声明的）定义之前调用函数声明。
 
 <br/>
 <div align=center>
@@ -169,8 +169,10 @@ counter = 'world'; // ······ counter: 'world'
 <br/>
 
 ```js
-// execution start                ······ counter: <uninitialized>
-//                                ······ say: function
+/**
+ * execution start ······ counter: <uninitialized>
+ *                 ······ say: function
+ */
 let name = 'znanjie';
 
 function say(name) {
