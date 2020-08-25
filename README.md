@@ -111,6 +111,7 @@ counter(()=>{
 ```
 > 闭包：内部函数总是可以访问其所在的外部函数中声明的变量和参数，即使在其外部函数被返回（寿命终结）了之后。  
 ### 词法环境（Lexical Environment）
+在 `ES6` 之前我们通常把这称为 `作用域`。
 > 在 JavaScript 中，每个运行的函数，代码块 `{...}` 以及整个脚本，都有一个被称为 **词法环境（Lexical Environment）** 的内部（隐藏）的关联**对象**。
 
 词法环境对象由两部分组成：
@@ -133,7 +134,7 @@ counter(()=>{
 </div>
 <br/>
 
-> 图片左边为脚本文件，`LexicalEnvironment` 表示为 `环境记录（Environment Record）`，箭头（`Outer`）表示 `对外部词法环境的引用`，**全局词法环境没有外部引用**，所以箭头指向了 `null`。  
+> 上图左边为脚本文件，`LexicalEnvironment` 表示为 `环境记录（Environment Record）`，箭头（`Outer`）表示 `对外部词法环境的引用`，**全局词法环境没有外部引用**，所以箭头指向了 `null`。  
 `LexicalEnvironment` 在此处用对象的方式来表达，`counter` 为 `LexicalEnvironment` 这一对象的一个属性，其值为 `hello`。
 
 <br/>
@@ -142,6 +143,39 @@ counter(()=>{
 </div>
 <br/>
 
-> JavaScript 引擎执行之初，能够获取当前词法环境的所有变量，变量都处在一个 `未初始化（Uninitialized）` 的状态，在 `let` 声明之前是不允许使用的，我们通常把这个称为 `暂时性死区（Temporal Dead Zone）`。
+> - 变量是特殊内部对象的属性，与当前正在执行的（代码）块/函数/脚本有关。
+> - 操作变量实际上是操作该对象的属性。
 
-- 函数声明：
+> 上图主要描述代码执行的过程中词法环境变量的变化：JavaScript 引擎执行之初，能够获取当前词法环境的所有变量，变量都处在一个 `未初始化（Uninitialized）` 的状态，在 `let` 声明之前是不允许使用的，我们通常把这个称为 **暂时性死区（Temporal Dead Zone）**。
+
+```js
+// execution start    ······ counter: <uninitialized>
+// 当前的词法环境具有 暂时性死区（Temporal Dead Zone）
+typeof counter;
+// ReferenceError: Cannot access 'counter' before initialization
+let counter; //       ······ counter: undefined
+counter = 'hello'; // ······ counter: 'hello'
+counter = 'world'; // ······ counter: 'world'
+```
+
+- 函数声明：一个函数其实也是一个值，就像变量一样。**不同之处在于函数声明的初始化会被立即完成**。  
+当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 `let` 那样直到声明处才可用）。  
+这就是为什么我们可以在（函数声明）的定义之前调用函数声明。
+
+<br/>
+<div align=center>
+    <img src="./static/svg/LexicalEnvironmentFunction.svg">
+</div>
+<br/>
+
+```js
+// execution start                ······ counter: <uninitialized>
+//                                ······ say: function
+let name = 'znanjie';
+
+function say(name) {
+    console.log(`hello, ${name}`);
+}
+```
+
+这种行为仅适用于函数声明，而不适用于我们将函数分配给变量的函数表达式，例如 `let say = function(name)...`。

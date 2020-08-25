@@ -1,4 +1,4 @@
-@startuml LexicalEnvironmentVar
+@startuml LexicalEnvironmentDeclaration
 skinparam {
     FileFontSize 14
     ObjectAttributeFontSize 14
@@ -8,15 +8,10 @@ agent agent [
     null
 ]
 file counter [
-    let counter;
-    counter = 'hello';
-    counter = 'world';
+    let counter = 'hello';
 ]
 object LexicalEnvironment
-LexicalEnvironment : counter: <uninitialized>
-LexicalEnvironment : counter: undefined
 LexicalEnvironment : counter: 'hello'
-LexicalEnvironment : counter: 'world'
 
 left to right direction
 counter .. LexicalEnvironment
