@@ -136,4 +136,12 @@ counter(()=>{
 > 图片左边为脚本文件，`LexicalEnvironment` 表示为 `环境记录（Environment Record）`，箭头（`Outer`）表示 `对外部词法环境的引用`，**全局词法环境没有外部引用**，所以箭头指向了 `null`。  
 `LexicalEnvironment` 在此处用对象的方式来表达，`counter` 为 `LexicalEnvironment` 这一对象的一个属性，其值为 `hello`。
 
+<br/>
+<div align=center>
+    <img src="./static/svg/LexicalEnvironmentVar.svg">
+</div>
+<br/>
+
+> JavaScript 引擎执行之初，能够获取当前词法环境的所有变量，变量都处在一个 `未初始化（Uninitialized）` 的状态，在 `let` 声明之前是不允许使用的，我们通常把这个称为 `暂时性死区（Temporal Dead Zone）`。
+
 - 函数声明：
