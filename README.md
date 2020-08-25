@@ -131,7 +131,7 @@ counter(()=>{
 <div align=center>
     <img src="./static/svg/LexicalEnvironmentDeclaration.svg">
 </div>
-&nbsp;
+<p>&nbsp;</p>
 
 > 图片左边为脚本文件，`LexicalEnvironment` 表示为 `环境记录（Environment Record）`，箭头（`Outer`）表示 `对外部词法环境的引用`，**全局词法环境没有外部引用**，所以箭头指向了 `null`。  
 `LexicalEnvironment` 在此处用对象的方式来表达，`counter` 为 `LexicalEnvironment` 这一对象的一个属性，其值为 `hello`。
