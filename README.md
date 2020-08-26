@@ -205,6 +205,7 @@ function say(name) {
 
 /**
  * 伪代码描述
+ * 词法分析阶段
  */
 // 全局词法环境
 GlobalEnvironment = {
@@ -216,14 +217,14 @@ GlobalEnvironment = {
         [[GlobalThisValue]]: ObjectEnvironmentRecord[[BindingObject]],
         //声明式环境记录
         DeclarativeEnvironmentRecord: {
-            counter: 'hello'
+            counter: << uninitialized >>
         },
         // 对象式环境记录
         ObjectEnvironmentRecord: {
-            detail: 'is me!',
+            detail: undefined,
             say: << function >>,
             ...
-            isNaN:<< function >>,
+            isNaN: << function >>,
             Array: << construct function >>,
             Object: << construct function>>,
             ...
@@ -231,7 +232,7 @@ GlobalEnvironment = {
     }
 }
 ```
-> TODO
+> 伪代码部分是代码的词法分析阶段进行分析的，在词法分析的时候会生成 `词法环境` 登记变量，对于不同的变量声明（`let`、`const`、`var`）和函数声明，词法环境的处理是不一样的`DeclarativeEnvironmentRecord` 中的变量（`let/const`）会被识别到，然后触发 `暂时性死区`；`ObjectEnvironmentRecord` 中的变量（`var/function`）则会发生提升。
 
 **这种行为仅适用于函数声明，而不适用于我们将函数分配给变量的函数表达式，例如：**
 ```js
@@ -242,6 +243,11 @@ typeof say;
 let say = function(name) { // ...... say: function
     console.log(`hello, ${name}`);
 }
+// 此时的 say 是在 DeclarativeEnvironmentRecord 中的变量，不能发生提升行为
 ```
 
 #### 对象式环境记录（Object Environment Record）
+每一个对象式环境记录项（Object Environment Record，以下简称 `OER`）都有一个关联的对象，这个对象被称作**绑定对象**。`OER`直接将当前词法环境的变量（包括函数）与其**绑定对象**建立一一的对应关系。  
+- 不符合 JavaScript 命名规范的名称不会作为绑定的属性名使用。
+- 对象继承的属性也会被绑定，即便是不可枚举的对象（`[[Enumerable = false]]`）。
+- 由于对象的属性可以动态的增减，因此对象式环境记录项所绑定的标识符（变量）集合也会隐匿地变化，这是增减绑定对象的属性而产生的副作用。通过以上描述的副作用而建立的绑定，均被视为可变绑定，即使该绑定对应的属性的 `[[Writable]]` 特性的值为 `false`。
