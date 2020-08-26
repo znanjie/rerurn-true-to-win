@@ -12,13 +12,13 @@ file counter [
     counter = 'hello';
     counter = 'world';
 ]
-object LexicalEnvironment
-LexicalEnvironment : counter: <uninitialized>
-LexicalEnvironment : counter: undefined
-LexicalEnvironment : counter: 'hello'
-LexicalEnvironment : counter: 'world'
+object EnvironmentRecord
+EnvironmentRecord : counter: <uninitialized>
+EnvironmentRecord : counter: undefined
+EnvironmentRecord : counter: 'hello'
+EnvironmentRecord : counter: 'world'
 
 left to right direction
-counter .. LexicalEnvironment
-LexicalEnvironment --> agent: Outer
+counter .. EnvironmentRecord
+EnvironmentRecord --> agent: Outer
 @enduml

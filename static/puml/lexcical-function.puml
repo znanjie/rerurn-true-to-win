@@ -14,12 +14,12 @@ file counter [
         console.log(`hello, ${name}`);
     }
 ]
-object LexicalEnvironment
-LexicalEnvironment : counter: <uninitialized>
-LexicalEnvironment : say: function
-LexicalEnvironment : .....
+object EnvironmentRecord
+EnvironmentRecord : counter: <uninitialized>
+EnvironmentRecord : say: function
+EnvironmentRecord : .....
 
 left to right direction
-counter .. LexicalEnvironment
-LexicalEnvironment --> agent: Outer
+counter .. EnvironmentRecord
+EnvironmentRecord --> agent: Outer
 @enduml

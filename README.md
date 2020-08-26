@@ -134,8 +134,9 @@ counter(()=>{
 </div>
 <br/>
 
-> 上图左边为脚本文件，`LexicalEnvironment` 表示为 `环境记录（Environment Record）`，箭头（`Outer`）表示 `对外部词法环境的引用`，**全局词法环境没有外部引用**，所以箭头指向了 `null`。  
-`LexicalEnvironment` 在此处用对象的方式来表达，`counter` 为 `LexicalEnvironment` 这一对象的一个属性，其值为 `hello`。
+> 上图左边为脚本文件，`EnvironmentRecord` 表示为 `环境记录（Environment Record）`，箭头（`Outer`）表示 `对外部词法环境的引用`，它们共同组成了 `词法环境（Lexical Environment）`。
+> - **全局词法环境没有外部引用**，所以箭头指向了 `null`。
+> - `EnvironmentRecord` 在此处用对象的方式来表达，`counter` 为这一对象的一个属性，其值为 `hello`。
 
 <br/>
 <div align=center>
@@ -181,3 +182,5 @@ function say(name) {
 ```
 
 **这种行为仅适用于函数声明，而不适用于我们将函数分配给变量的函数表达式，例如 `let say = function(name)...`。**
+
+#### 对象式环境记录（Object Environment Record）
