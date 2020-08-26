@@ -118,7 +118,7 @@ counter(()=>{
 - **环境记录（Environment Record）**：一个存储所有局部变量作为其属性（包括一些其他信息，例如 this 的值）的对象。
   - **声明式环境记录（Declarative Environment Record）**
   - **对象式环境记录（Object Environment Record）**
-  - **全局环境记录（Global Environment Record）**
+  - **全局环境记录（Global Environment Record）**：唯一的词法环境。
 - **对外部词法环境的引用（Outer）**：对 **外部词法环境** 的引用，与外部代码相关联
 
 <div align=center>
@@ -137,6 +137,28 @@ counter(()=>{
 > 上图左边为脚本文件，`EnvironmentRecord` 表示为 `环境记录（Environment Record）`，箭头（`Outer`）表示 `对外部词法环境的引用`，它们共同组成了 `词法环境（Lexical Environment）`。
 > - **全局词法环境没有外部引用**，所以箭头指向了 `null`。
 > - `EnvironmentRecord` 在此处用对象的方式来表达，`counter` 为这一对象的一个属性，其值为 `hello`。
+
+```js
+/**
+ * 伪代码描述
+ */
+// 全局词法环境
+GlobalEnvironment = {
+    // 全局环境的外部环境引用为 null
+    outer: null,
+    // 全局环境记录（唯一的）
+    GlobalEnvironmentRecord: {
+         //全局 this 绑定指向全局对象
+        [[GlobalThisValue]]: ObjectEnvironmentRecord[[BindingObject]],
+        //声明式环境记录
+        DeclarativeEnvironmentRecord: {
+            counter: 'hello'
+        },
+        // 对象式环境记录
+        ObjectEnvironmentRecord: {...}
+    }
+}
+```
 
 <br/>
 <div align=center>
@@ -160,14 +182,14 @@ counter = 'world'; // ······ counter: 'world'
 ```
 
 - **函数声明**：一个函数其实也是一个值，就像变量一样。**不同之处在于函数声明的初始化会被立即完成**。  
-当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 `let` 那样直到声明处才可用）。  
-这就是为什么我们可以在（函数声明的）定义之前调用函数声明。
-
 <br/>
 <div align=center>
     <img src="./static/svg/LexicalEnvironmentFunction.svg">
 </div>
 <br/>
+
+> 当创建了一个词法环境（Lexical Environment）时，函数声明会立即变为即用型函数（不像 `let` 那样直到声明处才可用）。  
+> 这就是为什么我们可以在（函数声明的）定义之前调用函数声明。
 
 ```js
 /**
@@ -175,11 +197,41 @@ counter = 'world'; // ······ counter: 'world'
  *                 ······ say: function
  */
 let name = 'znanjie';
+var detail = 'is me!';
 
 function say(name) {
     console.log(`hello, ${name}`);
 }
+
+/**
+ * 伪代码描述
+ */
+// 全局词法环境
+GlobalEnvironment = {
+    // 全局环境的外部环境引用为 null
+    outer: null,
+    // 全局环境记录（唯一的）
+    GlobalEnvironmentRecord: {
+         //全局 this 绑定指向全局对象
+        [[GlobalThisValue]]: ObjectEnvironmentRecord[[BindingObject]],
+        //声明式环境记录
+        DeclarativeEnvironmentRecord: {
+            counter: 'hello'
+        },
+        // 对象式环境记录
+        ObjectEnvironmentRecord: {
+            detail: 'is me!',
+            say: << function >>,
+            ...
+            isNaN:<< function >>,
+            Array: << construct function >>,
+            Object: << construct function>>,
+            ...
+        }
+    }
+}
 ```
+> TODO
 
 **这种行为仅适用于函数声明，而不适用于我们将函数分配给变量的函数表达式，例如：**
 ```js
