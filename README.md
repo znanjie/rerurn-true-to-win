@@ -12,9 +12,10 @@
 ## 目录
 - [x] [id (2)](#id)
 - [x] [reflexive (3)](#reflexive)
-- [x] [transitive (8)](#transitive)
+- [x] [transitive (7)](#transitive)
 - [x] [peano (7)](#peano)
 - [x] [counter (13)](#counter)
+- [x] [array (23)](#array)
 
 ## id
 ```js
@@ -40,6 +41,7 @@ function transitive(x,y,z) {
     return x && x == y && y == z && x != z;
 }
 transitive('0',0,''); // true
+transitive([],0,[]); // true
 ```
 > 类型转换问题。对于基本类型 `Boolean`，`Number`，`String`，三者之间做比较时，总是向 `Number` 进行类型转换，然后再比较。
 ### 上述类型转换过程：
@@ -65,6 +67,39 @@ transitive(1,{i:0, valueOf() {return ++this.i;}},2); // true
 ```
 > 代码中的 `x == y` 和 `y == z`，都触发了类型转换，也就是 `Number(y)` 触发了 `valueOf()` 方法。  
 > 上述方案重写了对象的 `valueOf()`，使其每次触发类型转换时返回的值 +1。
+
+### 对象--原始值转换（Symbol.toPrimitive）
+对于第二个答案的类型转换分析会复杂一点。这里主要涉及的知识点：
+- 所有的对象在布尔上下文（context）中均为 `true`。所以对于对象，不存在 `to-boolean` 转换，只有字符串和数值转换。
+- 数值转换发生在对象相减或应用数学函数时。例如，`Date` 对象相减可以得到两个日期的差值
+- 字符串的转换通常发生在 `console.log(obj)` 这样输出一个对象或类似的执行上下文中。
+
+```js
+x = [], y = 0, z = [];
+/*
+ * 1. Boolean(x) ==> true
+ * 2. ToPrimitive(x) == y ==> true
+ * 3. y == ToPrimitive(z) ==> true
+ */
+```
+> 代码中的 `x == y` 和 `y == z`，触发了对象到原始类型的转换。其主要过程如下:
+
+```js
+/*
+ * @description 对象到原始类型转换的抽象操作
+ * @name Symbol.toPrimitive
+ * @param {String} hint ['number', 'string', 'default']
+ */
+Array.prototype[Symbol.toPrimitive] = hint=>{
+    console.log(hint);
+};
+const a = ([] == 0); // print: default
+const b = (0 == []); // print: default
+```
+如果 hint 为 'default'，那么流程将和 'number' 的一样，实际发生的转换是 `Number([]) === 0` 为 `true`。
+
+- [ECMA 262规范](https://tc39.es/ecma262/#sec-toprimitive)
+
 
 ## peano
 ```js
@@ -127,4 +162,21 @@ counter(()=>{
 </div>
 <br>
 
-[【译】词法环境——闭包的隐秘角落](https://www.notion.so/1d00c58de07b4a779ae037227e62e30d)
+- [【译】词法环境——闭包的隐秘角落](https://www.notion.so/1d00c58de07b4a779ae037227e62e30d)
+
+## array
+```js
+function array(x,y) {
+    return Array.isArray(x) && !(x instanceof Array) &&
+          !Array.isArray(y) && (y instanceof Array);
+}
+// answer
+array(0,[Array.isArray=z=>!z]); // true
+// detail
+Array.isArray = z=>!z
+Array.isArray(0); // true
+!(0 instanceof Array); // true
+!Array.isArray([]); // true
+[] instanceof Array; // true
+```
+> 在传递实参时重写了 `Array.isArray()` 这个函数。同时也涉及到了类型转换。
