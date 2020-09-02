@@ -96,7 +96,15 @@ Array.prototype[Symbol.toPrimitive] = hint=>{
 const a = ([] == 0); // print: default
 const b = (0 == []); // print: default
 ```
-如果 hint 为 'default'，那么流程将和 'number' 的一样，实际发生的转换是 `Number([]) === 0` 为 `true`。
+如果 hint 为 'default'，那么流程将和 'number' 的一样，实际发生的转换是:
+```js
+[] == 0;
+/*
+ * ToPrimitive([]) ==> [].valueOf().toString() === '';
+ * 1. ToPrimitive([]) == 0 ==> '' == 0
+ * 2. Number('') == 0 ==> 0 == 0 ==> true
+ */
+```
 
 - [ECMA 262规范](https://tc39.es/ecma262/#sec-toprimitive)
 
