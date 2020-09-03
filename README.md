@@ -16,6 +16,7 @@
 - [x] [peano (7)](#peano)
 - [x] [counter (13)](#counter)
 - [x] [array (23)](#array)
+- [x] [instance (15)](#instance)
 
 ## id
 ```js
@@ -146,6 +147,7 @@ function counter(f) {
 }
 // answer
 counter((i=0)=>$=>++i);// true
+counter(i=>$=>i=-~i)
 // detail
 counter(()=>{
     let i = 0;
@@ -188,3 +190,15 @@ Array.isArray(0); // true
 [] instanceof Array; // true
 ```
 > 在传递实参时重写了 `Array.isArray()` 这个函数。同时也涉及到了类型转换。
+
+## instance
+```js
+function instance(x,y) {
+  return x instanceof y && y instanceof x && x !== y;
+}
+// answer
+instance(Object,Function)
+```
+> `instanceof` 运算符用于检测构造函数的 `prototype` 属性是否出现在某个实例对象的原型链上。
+
+### instanceof 运算符
