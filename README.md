@@ -199,6 +199,41 @@ function instance(x,y) {
 // answer
 instance(Object,Function)
 ```
-> `instanceof` 运算符用于检测构造函数的 `prototype` 属性是否出现在某个实例对象的原型链上。
+## instance2
+```js
+function instance2(a,b,c) {
+  return a !== b && b !== c && a !== c
+      && a instanceof b
+      && b instanceof c
+      && c instanceof a;
+}
+// answer
+instance2(a=Object,Function,c=$=>$,c.__proto__=a)
+```
 
-### instanceof 运算符
+### instance & instance2 详解
+> `instanceof` 运算符用于检测构造函数的 `prototype` 属性是否出现在某个实例对象的原型链上。  
+
+`Object instanceof Function`：检查 `Object` 这个构造函数在原型链的某个位置上是否具有 `Function.prototype` 的实例。
+```js
+Object.__proto__ === Function.prototype; // true
+```
+`Object` 构造函数继承自 `Function.prototype`。
+
+<br>
+
+`Function instanceof Object`：检查 `Function` 这个构造函数在原型链的某个位置上是否具有 `Object.prototype` 的实例。
+```js
+Function.__proto__.__proto__ === Object.prototype; // true
+```
+`Function` 构造函数间接继承自 `Object.prototype`
+
+<br>
+
+**所有对象都是 `Object` 构造函数的实例，所有函数都是 `Function` 构造函数的实例。**
+```js
+Object ---> Function.prototype ---> Object.prototype ---> null
+Function ---> Function.prototype ---> Object.prototype ---> null
+```
+- [【译】惊人优雅的 JavaScript 类型](https://www.notion.so/JavaScript-c5d1960e8443471184682a867a12cef3)
+- [Why in JavaScript both “Object instanceof Function” and “Function instanceof Object” return true?](https://stackoverflow.com/questions/23622695/why-in-javascript-both-object-instanceof-function-and-function-instanceof-obj?answertab=votes#tab-top)
