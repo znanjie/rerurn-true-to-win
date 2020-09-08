@@ -17,6 +17,8 @@
 - [x] [counter (13)](#counter)
 - [x] [array (23)](#array)
 - [x] [instance (15)](#instance)
+- [x] [instance (38)](#instance2)
+- [x] [proto1 (16)](#proto1)
 
 ## id
 ```js
@@ -237,3 +239,15 @@ Function ---> Function.prototype ---> Object.prototype ---> null
 ```
 - [【译】惊人优雅的 JavaScript 类型](https://www.notion.so/JavaScript-c5d1960e8443471184682a867a12cef3)
 - [Why in JavaScript both “Object instanceof Function” and “Function instanceof Object” return true?](https://stackoverflow.com/questions/23622695/why-in-javascript-both-object-instanceof-function-and-function-instanceof-obj?answertab=votes#tab-top)
+
+## proto1
+```js
+function proto1(x) {
+    return x && !("__proto__" in x);
+}
+// answer
+proto1(Object.create(null)); // true
+proto1({__proto__:null}); // true
+```  
+> 规范中把 `[[Prototype]]` 称为 **“原型”**，而`__proto__` 是 `[[Prototype]]` 的因历史原因而留下来的 getter/setter。  
+> `__proto__` 与 `[[Prototype]]` 不一样。`__proto__` 是 `[[Prototype]]` 的 getter/setter
