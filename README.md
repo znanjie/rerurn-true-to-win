@@ -17,9 +17,9 @@
 - [x] [counter (13)](#counter)
 - [x] [array (23)](#array)
 - [x] [instance (15)](#instance)
-- [x] [instance (38)](#instance2)
+- [x] [instance2 (38)](#instance2)
 - [x] [proto1 (16)](#proto1)
-- [] [undef ()](#undef)
+- [x] [undef (12)](#undef)
 
 ## id
 ```js
@@ -269,4 +269,29 @@ undef(Object.prototype.number=0); // true
 ```
 
 ### 上述过程分析
-`document.all` 属于浏览器 API，对于 `typeof` 运算符来说是不存在
+`document.all` 属于浏览器 API，已移除标准，但浏览器为了兼容还保留着。  
+
+根据规范所描述的：
+> `all` 属性必须返回一个以 `Document` 节点为根的并且匹配了所有页面元素的 `HTMLAllCollection` 集合。  
+> `all` 返回的对象具有以下几种异常情况：  
+> 1. 在 JavaScript 中，当对 `all` 返回的对象进行“布尔转换”的时候，返回的值为 `false`。  
+> 2. `all` 返回的对象的在进行弱类型比较（`==`）的时候与 `undefined` 以及 `null` 相等，即返回 `true` （严格相等的时候不会发生类型转换，为 `false`）。  
+> 3. `all` 使用 `typeof` 操作符时返回 `undefined`。  
+
+- [HTML Standard](https://html.spec.whatwg.org/multipage/obsolete.html#dom-document-all)
+
+```js
+// 代码执行过程
+// 1. 对象声明
+const obj = {
+    undefined: {
+        undefined: 1
+    }
+}
+// 2.找到 [typeof x]的属性值
+typeof document.all === 'undefined';
+obj['undefined']; // ==> {undefined: 1}
+// 3.找到 [document.all]的属性值
+obj['undefined'][document.all]; // ==> undefined
+!undefined; // ==> true
+```
