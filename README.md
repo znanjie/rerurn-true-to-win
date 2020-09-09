@@ -251,3 +251,8 @@ proto1({__proto__:null}); // true
 ```  
 > 规范中把 `[[Prototype]]` 称为 **“原型”**，而`__proto__` 是 `[[Prototype]]` 的因历史原因而留下来的 getter/setter。  
 > `__proto__` 与 `[[Prototype]]` 不一样。`__proto__` 是 `[[Prototype]]` 的 getter/setter
+
+### in 运算符
+> 如果指定的属性在指定的对象或其原型链中，则 `in` 运算符返回true。
+
+`Object.create(null)` 以及 `{__proto__:null}` 都是创建的是一个“纯粹”的对象，不继承任何的属性，该对象是不具备原型（即 `[[Prototype]]`）的，也不存在对应的 `__proto__` 访问器属性。对于 `in` 运算符来说，`__proto__` 是不存在的。
