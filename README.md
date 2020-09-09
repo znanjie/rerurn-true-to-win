@@ -19,6 +19,7 @@
 - [x] [instance (15)](#instance)
 - [x] [instance (38)](#instance2)
 - [x] [proto1 (16)](#proto1)
+- [] [undef ()](#undef)
 
 ## id
 ```js
@@ -256,3 +257,16 @@ proto1({__proto__:null}); // true
 > 如果指定的属性在指定的对象或其原型链中，则 `in` 运算符返回true。
 
 `Object.create(null)` 以及 `{__proto__:null}` 都是创建的是一个“纯粹”的对象，不继承任何的属性，该对象是不具备原型（即 `[[Prototype]]`）的，也不存在对应的 `__proto__` 访问器属性。对于 `in` 运算符来说，`__proto__` 是不存在的。
+
+## undef
+```js
+function undef(x) {
+    return !{ undefined: { undefined: 1 } }[typeof x][x];
+}
+// answer
+undef(document.all); // true
+undef(Object.prototype.number=0); // true
+```
+
+### 上述过程分析
+`document.all` 属于浏览器 API，对于 `typeof` 运算符来说是不存在
