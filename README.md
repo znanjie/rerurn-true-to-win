@@ -20,6 +20,7 @@
 - [x] [instance2 (38)](#instance2)
 - [x] [proto1 (16)](#proto1)
 - [x] [undef (12)](#undef)
+- [x] [symmetric (20)](#symmetric)
 
 ## id
 ```js
@@ -315,3 +316,13 @@ obj['number'] === obj.__proto__.number === 0;
 obj['number'][0]; // undefined
 !undefined; // true
 ```
+
+## symmetric
+```js
+function symmetric(x,y) {
+    return x == y && y != x;
+}
+// answer
+symmetric(i=0,{valueOf:$=>i++}); // true
+```
+主要是基于对象转换为基本类型的原理，转换过程参考 [transitive](#transitive) 所述。
