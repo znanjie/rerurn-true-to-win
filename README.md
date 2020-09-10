@@ -21,6 +21,7 @@
 - [x] [proto1 (16)](#proto1)
 - [x] [undef (12)](#undef)
 - [x] [symmetric (20)](#symmetric)
+- [x] [ouroborobj (3)](#ouroborobj)
 
 ## id
 ```js
@@ -326,3 +327,35 @@ function symmetric(x,y) {
 symmetric(i=0,{valueOf:$=>i++}); // true
 ```
 主要是基于对象转换为基本类型的原理，转换过程参考 [transitive](#transitive) 所述。
+
+## ouroborobj
+```js
+function ouroborobj(x) {
+    return x in x;
+}
+// answer
+ouroborobj([0]); // true
+ouroborobj(x={},x[x]=1); // true
+```
+
+### 隐式的类型转换
+`in` 的语法： `prop in object`
+- `prop`：一个字符串类型或者 symbol 类型的属性名或者数组索引（非symbol类型将会强制转为字符串）。
+- `object`：检查它（或其原型链）是否包含具有指定名称的属性的对象。
+
+根据参数 `prop` 所述，非字符串或 symbol 类型会触发类型转换，也就是触发 `toString()` 的运算。  
+在此基础上分析上述过程：
+```js
+x = [0];
+[0] in [0];
+[0].toString() === '0';
+'0' in [0] === true;
+
+x = {};
+x[x] = 1;
+x[x.toString()] = 1;
+x['[object Object]'] = 1;
+{'[object Object]': 1} in {'[object Object]': 1};
+{'[object Object]': 1}.toString() === '[object Object]';
+'[object Object]' in {'[object Object]': 1} === true
+```
