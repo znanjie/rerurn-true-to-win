@@ -281,8 +281,9 @@ undef(Object.prototype.number=0); // true
 - [HTML Standard](https://html.spec.whatwg.org/multipage/obsolete.html#dom-document-all)
 
 ```js
+// document.all
 // 代码执行过程
-// 1. 对象声明
+// 1.对象声明
 const obj = {
     undefined: {
         undefined: 1
@@ -294,4 +295,23 @@ obj['undefined']; // ==> {undefined: 1}
 // 3.找到 [document.all]的属性值
 obj['undefined'][document.all]; // ==> undefined
 !undefined; // ==> true
+```
+
+```js
+// Object.prototype.number=0
+// 代码执行过程
+// 1.对象实例原型属性添加
+Object.prototype.number = 0;
+x = 0;
+// 2.对象声明
+const obj = {
+    undefined: {
+        undefined: 1
+    }
+};
+obj.__proto__ === Object.prototype;
+typeof x === 'number';
+obj['number'] === obj.__proto__.number === 0;
+obj['number'][0]; // undefined
+!undefined; // true
 ```
