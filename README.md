@@ -22,6 +22,8 @@
 - [x] [undef (12)](#undef)
 - [x] [symmetric (20)](#symmetric)
 - [x] [ouroborobj (3)](#ouroborobj)
+- [x] [truth (28)](#truth)
+- [x] [wat (52)](#wat)
 
 ## id
 ```js
@@ -270,7 +272,7 @@ undef(document.all); // true
 undef(Object.prototype.number=0); // true
 ```
 
-### 上述过程分析
+### 过程分析
 `document.all` 属于浏览器 API，已移除标准，但浏览器为了兼容还保留着。  
 
 根据规范所描述的：
@@ -358,4 +360,41 @@ x['[object Object]'] = 1;
 {'[object Object]': 1} in {'[object Object]': 1};
 {'[object Object]': 1}.toString() === '[object Object]';
 '[object Object]' in {'[object Object]': 1} === true
+```
+
+## truth
+```js
+function truth(x) {
+    return x.valueOf() && !x;
+}
+// answer
+truth(x=0,x.__proto__.valueOf=$=>1); // true
+truth(x,Number.prototype.valueOf=$=>1); // true
+```
+重写 `x` 原型链上的 `valueOf` 函数，使其返回的值转换为布尔值之后为 `true`。
+
+## wat
+```js
+function wat(x) {
+    return x('hello') == 'world:)' && !x;
+}
+// answer
+wat([a]=document.all,a.id='hello',a.valueOf=$=>'world:)')
+```
+
+### 过程分析
+结合 [undef](#undef) 所述：
+```js
+// 1. 解构赋值
+[a]=document.all
+a = document.all[0];
+// 2. 变量赋值
+x = document.all;
+a.id === document.all[0] = 'hello';
+a.valueOf === document.all[0].valueOf = $=> 'world:)';
+// 3. 过滤：实现细节取决于浏览器本身
+x('hello') === document.all('hello') === document.all['hello'];
+x('hello') == 'world:)';
+document.all('hello').valueOf() == 'world:)'; // true
+!x === !document.all === true
 ```
