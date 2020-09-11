@@ -24,6 +24,7 @@
 - [x] [ouroborobj (3)](#ouroborobj)
 - [x] [truth (28)](#truth)
 - [x] [wat (52)](#wat)
+- [x] [total (22)](#total)
 
 ## id
 ```js
@@ -398,3 +399,35 @@ x('hello') == 'world:)';
 document.all('hello').valueOf() == 'world:)'; // true
 !x === !document.all === true
 ```
+
+## total
+```js
+function total(x) {
+  return (x < x) && (x == x) && (x > x);
+}
+// answer
+total({valueOf:$=>n--%2},n=2)
+```
+
+### 过程分析
+整个式子涉及的都是比较符号：`<`, `==`, `>`，隐藏着类型转换的过程，但值得注意的是，对象和对象之间 `==` 运算的判断条件是**对象的引用地址**，并不会触发类型转换。
+```js
+// 重写对象的类型转换（ToNumber）:
+n = 2;
+x = {
+    valueOf() {
+        return n--%2
+    }
+}
+// 触发了类型转换就调用一次 valueOf()
+// 此时 n === 2
+x < x === x.valueOf() < x.valueOf() === 0 < 1; // true
+
+// 对比对象的引用地址，不会触发类型转换
+x == x; // true
+
+// 此时 n === 0;
+x > x === x.valueOf() > x.valueOf() === 0 > -1; // true
+// 最后 n === -2
+```
+在整个表达式 `x` 访问了 6 次，触发了类型转换 4 次
