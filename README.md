@@ -354,8 +354,7 @@ x = [0];
 [0].toString() === '0';
 '0' in [0] === true;
 
-x = {};
-x[x] = 1;
+x = {}, x[x] = 1;
 x[x.toString()] = 1;
 x['[object Object]'] = 1;
 {'[object Object]': 1} in {'[object Object]': 1};
@@ -430,4 +429,4 @@ x == x; // true
 x > x === x.valueOf() > x.valueOf() === 0 > -1; // true
 // 最后 n === -2
 ```
-在整个表达式 `x` 访问了 6 次，触发了类型转换 4 次
+在整个表达式中 `x` 访问了 6 次，触发了类型转换 4 次。
